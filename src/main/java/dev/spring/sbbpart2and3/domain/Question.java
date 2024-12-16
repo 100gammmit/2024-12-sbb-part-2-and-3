@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.List;
 public class Question extends TimeSetAuditing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(length = 200)
     private String subject;
@@ -20,7 +21,7 @@ public class Question extends TimeSetAuditing {
     private String content;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Answer> answerList;
+    private List<Answer> answerList = new ArrayList<>();
 
     protected Question() {}
 

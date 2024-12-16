@@ -11,7 +11,7 @@ import lombok.ToString;
 public class Answer extends TimeSetAuditing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(columnDefinition = "TEXT")
     private String content;
