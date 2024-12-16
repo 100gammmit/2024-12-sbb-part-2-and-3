@@ -20,7 +20,9 @@ spring:
 
 ---
 spring:
-  profiles: main
+  config:
+    activate:
+      on-profile: main
   datasource:
     url : jdbc:mysql://localhost:3306/sbb
     username: root
@@ -29,7 +31,9 @@ spring:
 
 ---
 spring:
-  profiles: test
+  config:
+    activate:
+      on-profile: test
   datasource:
     url : jdbc:h2:mem:testdb
     username: sa
