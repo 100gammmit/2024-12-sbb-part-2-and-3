@@ -14,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -85,6 +82,14 @@ public class AnswerController {
         }
         answerService.delete(id);
         return "redirect:/question/detail/" + answer.getQuestionId();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String voteAnswer(@PathVariable("id") Long id, Principal principal,
+                             @RequestParam("questionId") Long questionId) {
+        answerService.vote(id, principal.getName());
+        return "redirect:/question/detail/" + questionId;
     }
 
 }

@@ -13,6 +13,7 @@ public class AnswerDTO {
     private String content;
     private String author;
     private Long QuestionId;
+    private int voterCount;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
@@ -21,6 +22,7 @@ public class AnswerDTO {
                 answer.getContent(),
                 answer.getAuthor() != null? answer.getAuthor().getUsername() : null,
                 answer.getQuestion().getId(),
+                answer.getVoter().size(),
                 answer.getCreatedDate(),
                 answer.getLastModifiedDate());
     }

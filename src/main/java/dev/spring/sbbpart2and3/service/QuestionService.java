@@ -6,6 +6,7 @@ import dev.spring.sbbpart2and3.domain.Question;
 import dev.spring.sbbpart2and3.dto.QuestionListDTO;
 import dev.spring.sbbpart2and3.exception.NoDataFoundException;
 import dev.spring.sbbpart2and3.repository.QuestionRepository;
+import dev.spring.sbbpart2and3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,9 +19,11 @@ import static dev.spring.sbbpart2and3.dto.QuestionDTO.toQuestionDto;
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final UserRepository userRepository;
     @Autowired
-    public QuestionService(QuestionRepository questionRepository) {
+    public QuestionService(QuestionRepository questionRepository, UserRepository userRepository) {
         this.questionRepository = questionRepository;
+        this.userRepository = userRepository;
     }
 
     public void save(String subject, String content, SiteUser siteUser) {
@@ -57,6 +60,12 @@ public class QuestionService {
         return questions.map(QuestionListDTO::toQuestionListDTO);
     }
 
-
+    public void vote(Long questionId, String username) {
+        Question question = getQuestionById(questionId);
+        SiteUser siteUser = userRepository.findByUsername(username).orElseThrow(() ->
+                new NoDataFoundException("사용자가 존재하지 않습니다."));
+        question.addVoter(siteUser);
+        questionRepository.save(question);
+    }
 
 }
