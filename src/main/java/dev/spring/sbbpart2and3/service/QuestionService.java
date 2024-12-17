@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static dev.spring.sbbpart2and3.dto.QuestionDTO.toQuestionDto;
-import static dev.spring.sbbpart2and3.dto.QuestionListDTO.toQuestionListDTO;
 
 @Service
 public class QuestionService {
@@ -26,10 +25,17 @@ public class QuestionService {
         questionRepository.save(new Question(subject, content));
     }
 
-    public QuestionDTO findQuestionById(Long id) {
-        Question question = questionRepository.findById(id).orElseThrow(() -> new NoDataFoundException("게시글이 존재하지 않습니다."));
+    public QuestionDTO findQuestionDtoById(Long id) {
+        Question question = questionRepository.findById(id).orElseThrow(() ->
+                new NoDataFoundException("게시글이 존재하지 않습니다."));
         return toQuestionDto(question);
     }
+
+    public Question findQuestionById(Long id) {
+        return  questionRepository.findById(id).orElseThrow(() ->
+                new NoDataFoundException("게시글이 존재하지 않습니다."));
+    }
+
 
     public Page<QuestionListDTO> findPagedQuestionsAsDTO(int page) {
         Pageable pageable = PageRequest.of(page, 10);

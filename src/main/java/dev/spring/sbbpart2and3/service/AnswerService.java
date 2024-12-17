@@ -15,7 +15,8 @@ public class AnswerService {
     }
 
 
-    public void save(Answer answer, Question question) {
+    public void save(String content, Question question) {
+        Answer answer = new Answer(content);
         question.addAnswer(answer);
         answerRepository.save(answer);
     }
