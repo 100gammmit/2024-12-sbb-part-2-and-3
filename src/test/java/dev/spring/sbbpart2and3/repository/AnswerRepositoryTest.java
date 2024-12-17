@@ -7,14 +7,17 @@ import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
+@ActiveProfiles("test")
 public class AnswerRepositoryTest {
     @Autowired
     private QuestionRepository questionRepository;
@@ -34,9 +37,9 @@ public class AnswerRepositoryTest {
         Question q1 = questionRepository.findById(1L).get();
         Question q2 = questionRepository.findById(2L).get();
 
-        Answer a1 = new Answer("답변1");
-        Answer a2 = new Answer("답변2");
-        Answer a3 = new Answer("답변3");
+        Answer a1 = new Answer("답변1", null);
+        Answer a2 = new Answer("답변2", null);
+        Answer a3 = new Answer("답변3", null);
         q1.addAnswer(a1);
         q2.addAnswer(a2);
         q2.addAnswer(a3);

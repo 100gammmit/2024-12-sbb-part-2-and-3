@@ -19,9 +19,13 @@ public class Answer extends TimeSetAuditing {
     @ManyToOne @Setter
     private Question question;
 
+    @ManyToOne
+    private SiteUser author;
+
     protected Answer() {}
 
-    public Answer(String content) {
+    public Answer(String content, SiteUser author) {
         this.content = content;
+        this.author = author;
     }
 }

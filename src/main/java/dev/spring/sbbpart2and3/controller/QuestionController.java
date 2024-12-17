@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/question")
 public class QuestionController {
@@ -34,7 +36,8 @@ public class QuestionController {
     }
 
     @PostMapping("/create")
-    public String createQuestion(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+    public String createQuestion(@Valid QuestionForm questionForm, BindingResult bindingResult,
+                                 Principal principal) {
         if (bindingResult.hasErrors()) {
             return "question_form";
         }

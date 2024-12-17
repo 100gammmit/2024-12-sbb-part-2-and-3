@@ -30,8 +30,7 @@
                       th:text="${question.answerCount}" >
                 </span>
             </td>
-            <td th:text="쓰니"></td>
-            <!-- <td><span th:if="${question.author != null}" th:text="${question.author.userId}"></span></td> -->
+            <td><span th:if="${question.author != null}" th:text="${question.author.userId}"></span></td>
             <td th:text="${#temporals.format(question.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
         </tr>
         </tbody>

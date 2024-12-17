@@ -13,11 +13,13 @@ public class QuestionListDTO {
     private String subject;
     private LocalDateTime createdDate;
     private int answerCount;
+    private String author;
 
     public static QuestionListDTO toQuestionListDTO(Question question) {
         return new QuestionListDTO(question.getId(),
                 question.getSubject(),
                 question.getCreatedDate(),
-                question.getAnswerList().size());
+                question.getAnswerList().size(),
+                question.getAuthor() != null? question.getAuthor().getUsername() : null);
     }
 }
