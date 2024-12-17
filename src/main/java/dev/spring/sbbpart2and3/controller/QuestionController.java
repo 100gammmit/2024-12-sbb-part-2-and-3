@@ -44,7 +44,7 @@ public class QuestionController {
 
     @GetMapping("/detail/{id}")
     public String getQuestionDetail(@PathVariable("id") Long id, AnswerForm answerForm, Model model) {
-        model.addAttribute("question", questionService.findQuestionDtoById(id));
+        model.addAttribute("question", questionService.findQuestionByIdAsDto(id));
         return "question_detail";
     }
 

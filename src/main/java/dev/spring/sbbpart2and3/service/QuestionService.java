@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import static dev.spring.sbbpart2and3.dto.QuestionDTO.toQuestionDto;
@@ -25,7 +26,7 @@ public class QuestionService {
         questionRepository.save(new Question(subject, content));
     }
 
-    public QuestionDTO findQuestionDtoById(Long id) {
+    public QuestionDTO findQuestionByIdAsDto(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(() ->
                 new NoDataFoundException("게시글이 존재하지 않습니다."));
         return toQuestionDto(question);
@@ -36,9 +37,9 @@ public class QuestionService {
                 new NoDataFoundException("게시글이 존재하지 않습니다."));
     }
 
-
     public Page<QuestionListDTO> findPagedQuestionsAsDTO(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+        Pageable pageable = PageRequest.of(page, 10, sort);
         Page<Question> questions = questionRepository.findAll(pageable);
         return questions.map(QuestionListDTO::toQuestionListDTO);
     }
