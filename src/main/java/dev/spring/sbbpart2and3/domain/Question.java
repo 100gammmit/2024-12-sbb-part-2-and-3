@@ -2,6 +2,7 @@ package dev.spring.sbbpart2and3.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ public class Question extends TimeSetAuditing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 200)
+    @Column(length = 200) @Setter
     private String subject;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT") @Setter
     private String content;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
@@ -28,9 +29,10 @@ public class Question extends TimeSetAuditing {
 
     protected Question() {}
 
-    public Question(String subject, String content) {
+    public Question(String subject, String content, SiteUser author) {
         this.subject = subject;
         this.content = content;
+        this.author = author;
     }
 
     public void addAnswer(Answer answer) {

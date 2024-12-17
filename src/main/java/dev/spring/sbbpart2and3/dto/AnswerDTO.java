@@ -11,12 +11,16 @@ import java.time.LocalDateTime;
 public class AnswerDTO {
     private Long id;
     private String content;
+    private String author;
+    private Long QuestionId;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
     public static AnswerDTO toDto(Answer answer) {
         return new AnswerDTO(answer.getId(),
                 answer.getContent(),
+                answer.getAuthor() != null? answer.getAuthor().getUsername() : null,
+                answer.getQuestion().getId(),
                 answer.getCreatedDate(),
                 answer.getLastModifiedDate());
     }

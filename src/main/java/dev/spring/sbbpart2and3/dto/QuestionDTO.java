@@ -14,6 +14,7 @@ public class QuestionDTO {
     private String subject;
     private String content;
     private List<AnswerDTO> answerList;
+    private String author;
     private LocalDateTime createdDate;
     private LocalDateTime LastModifiedDate;
 
@@ -22,6 +23,7 @@ public class QuestionDTO {
                 question.getSubject(),
                 question.getContent(),
                 question.getAnswerList().stream().map(AnswerDTO::toDto).toList(),
+                question.getAuthor() != null? question.getAuthor().getUsername() : null,
                 question.getCreatedDate(),
                 question.getLastModifiedDate());
     }

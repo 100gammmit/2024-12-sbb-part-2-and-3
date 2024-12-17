@@ -28,7 +28,7 @@ public class QuestionRepositoryTest {
     public void setUp() {
         em.createNativeQuery("ALTER TABLE QUESTION ALTER COLUMN ID RESTART WITH 1").executeUpdate();
         for(int i = 1; i <= 50; i++) {
-            questionRepository.save(new Question("테스트제목"+i, "테스트내용"+i));
+            questionRepository.save(new Question("테스트제목"+i, "테스트내용"+i, null));
         }
     }
     @Test

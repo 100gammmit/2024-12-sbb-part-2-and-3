@@ -1,5 +1,6 @@
 package dev.spring.sbbpart2and3.service;
 
+import dev.spring.sbbpart2and3.domain.SiteUser;
 import dev.spring.sbbpart2and3.dto.QuestionDTO;
 import dev.spring.sbbpart2and3.domain.Question;
 import dev.spring.sbbpart2and3.dto.QuestionListDTO;
@@ -22,26 +23,40 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    public void save(String subject, String content) {
-        questionRepository.save(new Question(subject, content));
+    public void save(String subject, String content, SiteUser siteUser) {
+        questionRepository.save(new Question(subject, content, siteUser));
     }
 
-    public QuestionDTO findQuestionByIdAsDto(Long id) {
+    public void modify(Long id, String subject, String content) {
+        Question question = questionRepository.findById(id).orElseThrow(() ->
+                new NoDataFoundException("게시글이 존재하지 않습니다."));
+        question.setSubject(subject);
+        question.setContent(content);
+        questionRepository.save(question);
+    }
+
+    public void delete(Long id) {
+        questionRepository.deleteById(id);
+    }
+
+    public QuestionDTO getQuestionDTOById(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(() ->
                 new NoDataFoundException("게시글이 존재하지 않습니다."));
         return toQuestionDto(question);
     }
 
-    public Question findQuestionById(Long id) {
+    public Question getQuestionById(Long id) {
         return  questionRepository.findById(id).orElseThrow(() ->
                 new NoDataFoundException("게시글이 존재하지 않습니다."));
     }
 
-    public Page<QuestionListDTO> findPagedQuestionsAsDTO(int page) {
+    public Page<QuestionListDTO> getPagedQuestionDTOs(int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
         Pageable pageable = PageRequest.of(page, 10, sort);
         Page<Question> questions = questionRepository.findAll(pageable);
         return questions.map(QuestionListDTO::toQuestionListDTO);
     }
+
+
 
 }

@@ -32,8 +32,8 @@ public class AnswerRepositoryTest {
         em.createNativeQuery("ALTER TABLE QUESTION ALTER COLUMN ID RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE ANSWER ALTER COLUMN ID RESTART WITH 1").executeUpdate();
 
-        questionRepository.save(new Question("테스트제목1", "테스트내용1"));
-        questionRepository.save(new Question("테스트제목2", "테스트내용2"));
+        questionRepository.save(new Question("테스트제목1", "테스트내용1", null));
+        questionRepository.save(new Question("테스트제목2", "테스트내용2", null));
         Question q1 = questionRepository.findById(1L).get();
         Question q2 = questionRepository.findById(2L).get();
 

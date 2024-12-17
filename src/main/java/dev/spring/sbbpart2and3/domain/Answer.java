@@ -13,7 +13,7 @@ public class Answer extends TimeSetAuditing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT") @Setter
     private String content;
 
     @ManyToOne @Setter
