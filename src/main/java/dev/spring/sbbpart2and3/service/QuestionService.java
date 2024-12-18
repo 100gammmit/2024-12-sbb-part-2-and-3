@@ -1,10 +1,10 @@
 package dev.spring.sbbpart2and3.service;
 
+import dev.spring.sbbpart2and3.domain.Question;
 import dev.spring.sbbpart2and3.domain.SiteUser;
 import dev.spring.sbbpart2and3.dto.QuestionDTO;
-import dev.spring.sbbpart2and3.domain.Question;
 import dev.spring.sbbpart2and3.dto.QuestionListDTO;
-import dev.spring.sbbpart2and3.exception.NoDataFoundException;
+import dev.spring.sbbpart2and3.exception.QuestionNotFoundException;
 import dev.spring.sbbpart2and3.repository.QuestionRepository;
 import dev.spring.sbbpart2and3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,7 @@ public class QuestionService {
     }
 
     public void modify(Long id, String subject, String content) {
-        Question question = questionRepository.findById(id).orElseThrow(() ->
-                new NoDataFoundException("게시글이 존재하지 않습니다."));
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFoundException::new);
         question.setSubject(subject);
         question.setContent(content);
         questionRepository.save(question);
@@ -43,27 +42,24 @@ public class QuestionService {
     }
 
     public QuestionDTO getQuestionDTOById(Long id) {
-        Question question = questionRepository.findById(id).orElseThrow(() ->
-                new NoDataFoundException("게시글이 존재하지 않습니다."));
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFoundException::new);
         return toQuestionDto(question);
     }
 
     public Question getQuestionById(Long id) {
-        return  questionRepository.findById(id).orElseThrow(() ->
-                new NoDataFoundException("게시글이 존재하지 않습니다."));
+        return  questionRepository.findById(id).orElseThrow(QuestionNotFoundException::new);
     }
 
     public Page<QuestionListDTO> getPagedQuestionDTOs(String kw, int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
-        Pageable pageable = PageRequest.of(page, 10, sort);
+        Pageable pageable = PageRequest.of(page, 20, sort);
         Page<Question> questions = questionRepository.findAllByKeyword(kw, pageable);
         return questions.map(QuestionListDTO::toQuestionListDTO);
     }
 
     public void vote(Long questionId, String username) {
         Question question = getQuestionById(questionId);
-        SiteUser siteUser = userRepository.findByUsername(username).orElseThrow(() ->
-                new NoDataFoundException("사용자가 존재하지 않습니다."));
+        SiteUser siteUser = userRepository.findByUsername(username).orElseThrow(QuestionNotFoundException::new);
         question.addVoter(siteUser);
         questionRepository.save(question);
     }

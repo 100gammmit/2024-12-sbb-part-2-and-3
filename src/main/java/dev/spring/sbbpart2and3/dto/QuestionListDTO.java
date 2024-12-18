@@ -20,6 +20,6 @@ public class QuestionListDTO {
                 question.getSubject(),
                 question.getCreatedDate(),
                 question.getAnswerList().size(),
-                question.getAuthor() != null? question.getAuthor().getUsername() : null);
+                question.getAuthor() != null ? question.getAuthor().getUsername() : null);
     }
 }

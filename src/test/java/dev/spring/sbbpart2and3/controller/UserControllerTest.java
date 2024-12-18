@@ -44,6 +44,7 @@ class UserControllerTest {
 
         // Then
         assertEquals("redirect:/", result);
+
         verify(userService).createUser("testUser", "password123", "test@example.com");
     }
 
