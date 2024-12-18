@@ -33,8 +33,9 @@ public class QuestionController {
     }
 
     @GetMapping("/list")
-    public String getQuestionList(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
-        Page<QuestionListDTO> questionList = questionService.getPagedQuestionDTOs(page);
+    public String getQuestionList(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "kw", defaultValue = "") String kw, Model model) {
+        Page<QuestionListDTO> questionList = questionService.getPagedQuestionDTOs(kw, page);
         model.addAttribute("questionList", questionList);
         return "question_list";
     }

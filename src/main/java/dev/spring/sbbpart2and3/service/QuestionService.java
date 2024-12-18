@@ -53,10 +53,10 @@ public class QuestionService {
                 new NoDataFoundException("게시글이 존재하지 않습니다."));
     }
 
-    public Page<QuestionListDTO> getPagedQuestionDTOs(int page) {
+    public Page<QuestionListDTO> getPagedQuestionDTOs(String kw, int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
         Pageable pageable = PageRequest.of(page, 10, sort);
-        Page<Question> questions = questionRepository.findAll(pageable);
+        Page<Question> questions = questionRepository.findAllByKeyword(kw, pageable);
         return questions.map(QuestionListDTO::toQuestionListDTO);
     }
 
