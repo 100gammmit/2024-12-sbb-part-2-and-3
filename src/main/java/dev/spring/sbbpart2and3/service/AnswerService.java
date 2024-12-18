@@ -22,10 +22,9 @@ public class AnswerService {
         this.userRepository = userRepository;
     }
 
-    public void save(String content, Question question, SiteUser siteUser) {
-        Answer answer = new Answer(content, siteUser);
-        question.addAnswer(answer);
+    public AnswerDTO save(Answer answer) {
         answerRepository.save(answer);
+        return toDto(answer);
     }
 
     public void modify(Long id, String content) {
@@ -56,12 +55,13 @@ public class AnswerService {
         return toDto(answer);
     }
 
-    public void vote(Long answerId, String username) {
+    public AnswerDTO vote(Long answerId, String username) {
         Answer answer = getAnswerById(answerId);
         SiteUser siteUser = userRepository.findByUsername(username).orElseThrow(() ->
                 new NoDataFoundException("사용자가 존재하지 않습니다."));
         answer.addVoter(siteUser);
         answerRepository.save(answer);
+        return toDto(answer);
     }
 
 }

@@ -43,18 +43,20 @@ public class AnswerController {
         }
         Question question = questionService.getQuestionById(questionId);
         SiteUser siteUser = userService.findUserByUsername(principal.getName());
-        answerService.save(answerForm.getContent(), question, siteUser);
-        return "redirect:/question/detail/" + questionId;
+        Answer answer = new Answer(answerForm.getContent(), siteUser);
+        question.addAnswer(answer);
+        AnswerDTO answerDTO = answerService.save(answer);
+        return "redirect:/question/detail/" + questionId + "#answer_" + answerDTO.getId();
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("modify/{id}")
     public String modifyAnswer(@PathVariable("id") Long id, AnswerForm answerForm, Principal principal) {
-        AnswerDTO answer = answerService.getAnswerDTOById(id);
-        if(!answer.getAuthor().equals(principal.getName())) {
+        AnswerDTO answerDTO = answerService.getAnswerDTOById(id);
+        if(!answerDTO.getAuthor().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
-        answerForm.setContent(answer.getContent());
+        answerForm.setContent(answerDTO.getContent());
         return "answer_form";
     }
 
@@ -65,31 +67,31 @@ public class AnswerController {
         if(bindingResult.hasErrors()) {
             return "answer_form";
         }
-        AnswerDTO answer = answerService.getAnswerDTOById(id);
-        if(!answer.getAuthor().equals(principal.getName())) {
+        AnswerDTO answerDTO = answerService.getAnswerDTOById(id);
+        if(!answerDTO.getAuthor().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
         answerService.modify(id, answerForm.getContent());
-        return "redirect:/question/detail/" + answer.getQuestionId();
+        return "redirect:/question/detail/" + answerDTO.getQuestionId() + "#answer_" + answerDTO.getId();
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("delete/{id}")
     public String deleteAnswer(@PathVariable("id") Long id, AnswerForm answerForm, Principal principal) {
-        AnswerDTO answer = answerService.getAnswerDTOById(id);
-        if(!answer.getAuthor().equals(principal.getName())) {
+        AnswerDTO answerDTO = answerService.getAnswerDTOById(id);
+        if(!answerDTO.getAuthor().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
         }
         answerService.delete(id);
-        return "redirect:/question/detail/" + answer.getQuestionId();
+        return "redirect:/question/detail/" + answerDTO.getQuestionId();
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{id}")
     public String voteAnswer(@PathVariable("id") Long id, Principal principal,
                              @RequestParam("questionId") Long questionId) {
-        answerService.vote(id, principal.getName());
-        return "redirect:/question/detail/" + questionId;
+        AnswerDTO answerDTO = answerService.vote(id, principal.getName());
+        return "redirect:/question/detail/" + questionId + "#answer_" + answerDTO.getId();
     }
 
 }
