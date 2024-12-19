@@ -37,17 +37,13 @@ public class AnswerService {
         answerRepository.deleteById(id);
     }
 
-    public Answer getAnswerById(Long id) {
-        return answerRepository.findById(id).orElseThrow(AnswerNotFoundException::new);
-    }
-
     public AnswerDTO getAnswerDTOById(Long id) {
         Answer answer = answerRepository.findById(id).orElseThrow(AnswerNotFoundException::new);
         return toDto(answer);
     }
 
     public AnswerDTO vote(Long answerId, String username) {
-        Answer answer = getAnswerById(answerId);
+        Answer answer = answerRepository.findById(answerId).orElseThrow(AnswerNotFoundException::new);
         SiteUser siteUser = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         answer.addVoter(siteUser);
         answerRepository.save(answer);

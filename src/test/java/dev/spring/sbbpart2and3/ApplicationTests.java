@@ -21,5 +21,4 @@ class ApplicationTests {
             questionService.save(subject, content, null);
         }
     }
-
 }

@@ -1,9 +1,7 @@
 package dev.spring.sbbpart2and3.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +11,7 @@ import java.util.Set;
 @Entity
 @ToString
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Question extends TimeSetAuditing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +30,6 @@ public class Question extends TimeSetAuditing {
 
     @ManyToMany
     private Set<SiteUser> voter = new HashSet<>();
-
-    protected Question() {}
 
     public Question(String subject, String content, SiteUser author) {
         this.subject = subject;

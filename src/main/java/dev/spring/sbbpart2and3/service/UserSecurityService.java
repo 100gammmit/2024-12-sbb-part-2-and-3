@@ -1,6 +1,7 @@
 package dev.spring.sbbpart2and3.service;
 
 import dev.spring.sbbpart2and3.domain.SiteUser;
+import dev.spring.sbbpart2and3.exception.UserNotFoundException;
 import dev.spring.sbbpart2and3.repository.UserRepository;
 import dev.spring.sbbpart2and3.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,7 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SiteUser user = userRepository.findByUsername(username).orElseThrow(() ->
-                new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+        SiteUser user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         if("admin".equals(username)) {

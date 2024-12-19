@@ -1,4 +1,5 @@
 package dev.spring.sbbpart2and3.controller;
+
 import dev.spring.sbbpart2and3.form.CreateUserForm;
 import dev.spring.sbbpart2and3.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,8 +10,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.BindingResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
 
