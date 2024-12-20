@@ -10,6 +10,11 @@
         <span th:text="${errorMessage}"></span>
     </div>
 
+    <div>
+        <p>현재 사용자: <span th:text="${#authentication.principal.username}"></span></p>
+        <p>권한 목록: <span th:text="${#authentication.authorities}"></span></p>
+    </div>
+
     <!-- 권한 부여/제거 테이블 -->
     <table class="table table-striped">
         <thead>

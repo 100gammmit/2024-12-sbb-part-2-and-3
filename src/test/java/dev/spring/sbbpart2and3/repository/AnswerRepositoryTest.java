@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +46,7 @@ public class AnswerRepositoryTest {
         q1.addAnswer(a1);
         q2.addAnswer(a2);
         q2.addAnswer(a3);
-
+        
         answerRepository.save(a1);
         answerRepository.save(a2);
         answerRepository.save(a3);

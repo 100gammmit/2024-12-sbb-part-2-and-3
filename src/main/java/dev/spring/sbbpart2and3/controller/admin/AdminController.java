@@ -1,20 +1,22 @@
-package dev.spring.sbbpart2and3.controller;
+package dev.spring.sbbpart2and3.controller.admin;
 
 import dev.spring.sbbpart2and3.domain.Role;
+import dev.spring.sbbpart2and3.dto.QuestionDTO;
 import dev.spring.sbbpart2and3.service.RoleService;
 import dev.spring.sbbpart2and3.service.UserSecurityService;
 import dev.spring.sbbpart2and3.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.management.relation.RoleNotFoundException;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -30,13 +32,7 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/manage/role")
-    public String manageRole(Model model) {
-        List<UserDetails> userDetails = userSecurityService.loadAllUser();
-        model.addAttribute("users", userDetails);
-        return "admin_manage_role";
-    }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/assignRole")
     public String assignRole(@RequestParam(value = "role") String roleName,
                              @RequestParam(value = "userId") String username, RedirectAttributes redirectAttributes) {
@@ -52,6 +48,7 @@ public class AdminController {
         return "redirect:/admin/manage/role";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/removeRole")
     public String removeRole(@RequestParam(value = "role") String roleName,
                              @RequestParam(value = "userId") String username, RedirectAttributes redirectAttributes) throws RoleNotFoundException {
@@ -67,4 +64,5 @@ public class AdminController {
 
         return "redirect:/admin/manage/role";
     }
+
 }
